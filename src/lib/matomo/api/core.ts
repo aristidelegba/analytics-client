@@ -8,6 +8,10 @@ import {
 import { EventsMethods } from "./events/event";
 import { mergeEventsPerCategories } from "./events/helpers";
 
+export const matmoSegmentOperators = {
+  OR: ",",
+  AND: ";",
+};
 export default class MatomoClientCore {
   matomoConfigs!: TMatomoConfig;
   constructor(data: TMatomoConfig) {

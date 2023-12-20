@@ -4,18 +4,17 @@ import {
   TPeriod,
 } from "@src/types";
 import { MatomoMethodParams, TMatomoConfig } from "./types";
-import MatomoClientCore from "./api/core";
+import MatomoClientCore, { matmoSegmentOperators } from "./api/core";
 import { checkPeriod } from "@src/utils";
+import { EventsSegments } from "./api/events/event";
 export * from "@src/types";
 function getMaotomoDateFromPeriod(period: TPeriod) {
   checkPeriod(period);
-  const { format, type, magicValue, value } = period;
+  const { format, magicValue, value } = period;
   if (format === "magic") {
-    return magicValue + "last" + type;
+    return "last" + magicValue;
   }
-  //   if (format === "date") {
-  return `${value.start},${value.end}`;
-  //   }
+  return `${value.start}${value.end ? "," : ""}${value.end}`;
 }
 export class MatomoClientFacade extends ShopinzenAnalyticsClient {
   matomoClientCore!: MatomoClientCore;
@@ -27,9 +26,17 @@ export class MatomoClientFacade extends ShopinzenAnalyticsClient {
   async getEventCount(data: TGetEventCountParams): Promise<any> {
     const { events, period, matomo: {} = {} } = data;
     checkPeriod(period);
+    const { OR } = matmoSegmentOperators;
+    const { eventName } = EventsSegments;
+    let segment = "segment=";
+    for (let index = 0; index < events.length; index++) {
+      const element = events[index];
+      segment += `${eventName}=${element}${index < events.length ? OR : ""}`;
+    }
     const params: MatomoMethodParams = {
-      period: period.type,
+      period: "day",
       date: getMaotomoDateFromPeriod(period),
+      segment
     };
     return await this.matomoClientCore.getEventsName(params);
   }

@@ -35,7 +35,6 @@ export type DateInterval = {
 
 export type TPeriod = {
   format: "magic" | "date";
-  type: "day" | "week" | "month" | "year";
   magicValue: string | number;
   value: {
     start?: string;

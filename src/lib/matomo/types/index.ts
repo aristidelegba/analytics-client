@@ -22,6 +22,7 @@ export type MatomoAPIResponse = {
 export type MatomoMethodParams = {
   period: Period;
   date: DateString;
+  segment?: string;
   [key: string]: any;
 };
 

@@ -17,11 +17,9 @@ type ClientType = keyof typeof clients;
 
 export class ShopinzenAnalytics {
   clientType!: ClientType;
-  activeClient!: GA4ClientFacade | MatomoClientFacade;
+  private activeClient!: GA4ClientFacade | MatomoClientFacade;
 
-  constructor({ client }: { client: ClientType }) {
-    this.clientType = client;
-  }
+  constructor() {}
 
   // ga4
   initGA4(params: GapiInitializationParams) {
@@ -37,7 +35,6 @@ export class ShopinzenAnalytics {
     this.clientType = "matomo";
     this.activeClient = new MatomoClientFacade(params);
   }
- 
 
   // common
   async getVisitsPerPeriod(params: TGetVisitsParams) {

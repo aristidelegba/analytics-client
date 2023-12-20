@@ -6,6 +6,9 @@ export const EventsMethods = {
   getAction: "Events.getAction",
   getName: "Events.getName",
 };
+export const EventsSegments = {
+  eventName: "eventName",
+};
 
 // export const getEventsCategory: MatomoMethod =
 //   matomoClientCore.createMatomoAPIRequest(eventsNames.getCategory);

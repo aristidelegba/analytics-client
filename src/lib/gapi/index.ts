@@ -22,17 +22,17 @@ function convertEventToGA4Event(events: TGetEventCountParams["events"]) {
 
 function getGA4DateFromPeriod(period: TPeriod) {
   checkPeriod(period);
-  const { format, type, magicValue, value } = period;
+  const { format, magicValue, value } = period;
   if (format === "magic") {
     return {
-      startDate: "last" + magicValue + type,
+      startDate: magicValue + "daysAgo",
       endDate: "today",
     };
   }
   if (format === "date") {
     return {
       startDate: value.start,
-      endDate: value.end,
+      endDate: value.end || "today",
     };
   }
 }
@@ -75,14 +75,25 @@ export class GA4ClientFacade extends ShopinzenAnalyticsClient {
     const { events, period, ga4: { property, format } = {} } = data;
     this.checkProperty(property);
 
+    const metrics = convertEventToGA4Event(events);
     let options = {
       dimensions: [],
-      metrics: convertEventToGA4Event(events),
+      metrics,
       ...getGA4DateFromPeriod(period),
       format,
     };
 
-    return await this.gapiService.queryReport(property, options);
+    return await this.gapiService
+      .queryReport(property, options)
+      .then((e: any) => {
+        const totals = e?.metricsTotals || {};
+        const result = {};
+        for (let index = 0; index < metrics.length; index++) {
+          const el = metrics[index];
+          result[el] = totals[index];
+        }
+        return result;
+      });
   }
 
   private checkProperty(property: string | undefined) {
