@@ -31,7 +31,7 @@ export class MatomoClientFacade extends ShopinzenAnalyticsClient {
     let segment = "segment=";
     for (let index = 0; index < events.length; index++) {
       const element = events[index];
-      segment += `${eventName}=${element}${index < events.length ? OR : ""}`;
+      segment += `${eventName}=${element.name}${index < events.length ? OR : ""}`;
     }
     const params: MatomoMethodParams = {
       period: "day",

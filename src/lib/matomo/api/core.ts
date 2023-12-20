@@ -39,6 +39,7 @@ export default class MatomoClientCore {
         };
 
         const response = await axios.get(baseUrl, { params: queryParams });
+        if (response?.data?.result === "error") throw { ...response?.data };
         return response.data;
       } catch (error) {
         console.error("Error making Matomo API request:", error);
