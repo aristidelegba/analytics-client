@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import localStorageService from "../localstorage.service";
+import storageService from "../storage.service";
 import { parseReportAsChartData, serverUrl } from "../gapi.utils";
 import { GapiInitializationParams } from "../types";
 import axios from "axios";
@@ -42,7 +42,7 @@ export class GapiAnalyticsService {
       const { status, result } = error;
       if (status === 401) {
         const { refresh_token } =
-          localStorageService.getGoogleLoginResponse() || {};
+          storageService.getGoogleLoginResponse() || {};
         console.log("refresh_token", refresh_token);
         // if (!refresh_token) reject(error);
         const { data: credentials } = (await this.refreshAccessToken(
@@ -51,7 +51,7 @@ export class GapiAnalyticsService {
         console.log("credentials :>> ", credentials);
         if (!credentials) reject(error);
 
-        localStorageService.setGoogleLoginResponse(credentials);
+        storageService.setGoogleLoginResponse(credentials);
         this.setAccessToken();
         const { method, args } = context;
         console.log("method, args :>> ", method, args);
@@ -134,46 +134,6 @@ export class GapiAnalyticsService {
       //   throw res;
     }
   }
-  async runRealtimeReport(property, options) {
-    if (!property) throw new Error("Google property isnt set");
-
-    try {
-      let { dimensions, metrics, startDate, endDate } = options;
-      metrics = (metrics || []).map((e) => {
-        return typeof e === "string" ? { name: e } : e;
-      });
-      dimensions = (dimensions || []).map((e) => {
-        return typeof e === "string" ? { name: e } : e;
-      });
-      console.log("this.analyticsdata :>> ", this.analyticsdata);
-      const meta = await this.analyticsdata.properties.getMetadata({
-        name: property + "/metadata",
-      });
-      console.log("meta", meta);
-      const reports = await this.analyticsdata.properties
-        .runRealtimeReport({
-          property: property,
-          dimensions: dimensions,
-          metrics: metrics,
-        })
-        .then((e) => {
-          return e;
-        });
-      console.log("reports realtime :>> ", reports);
-      //   if (options.format === "chart_data") {
-      //     return parseReportAsChartData([reports]);
-      //   }
-
-      //   return reports;
-    } catch (error) {
-      return await this.errorHandler(error, {
-        method: "runRealtimeReport",
-        args: [property, options],
-      });
-      //   console.log("res", res);
-      //   throw res;
-    }
-  }
 
   async listAccounts() {
     console.log(" this.analyticsadmin", this.analyticsadmin);
@@ -191,7 +151,7 @@ export class GapiAnalyticsService {
   }
 
   setAccessToken() {
-    const { access_token } = localStorageService.getGoogleLoginResponse() || {};
+    const { access_token } = storageService.getGoogleLoginResponse() || {};
     this.gapi.client.setToken({
       access_token: access_token,
     });
@@ -200,31 +160,3 @@ export class GapiAnalyticsService {
     });
   }
 }
-
-// async runReport(view, options) {
-//     let { dimensions, metrics, startDate, endDate } = options;
-
-//     let filters = {
-//       metrics: (options.metrics || []).map((e) => {
-//         return "ga:" + e;
-//       }),
-//       dimensions: (options.dimensions || []).map((e) => {
-//         return "ga:" + e;
-//       }),
-//     };
-//     const ids = "ga:" + view.id;
-//     console.log("filters", JSON.parse(JSON.stringify(filters)));
-
-//     const buildFilters = (data) => {
-//       return data;
-//     };
-//     const { result } = await this.analytics.data.ga.get({
-//       ...filters,
-//       "start-date": startDate,
-//       "end-date": endDate,
-//       ids: ids,
-//     });
-
-//     console.log("result :>> ", result);
-//     return result;
-//   }

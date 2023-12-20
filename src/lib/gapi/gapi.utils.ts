@@ -56,7 +56,7 @@ async function getAccessTokenFromServer({ code }) {
 // reports
 function preParseReportRequestResult(result) {
   let {
-    result: { metricHeaders=[], dimensionHeaders=[], rows = [], totals },
+    result: { metricHeaders = [], dimensionHeaders = [], rows = [], totals },
   } = result[0];
   //   dimensionHeaders = dimensionHeaders.map((e) => replaceInString(e, "ga:", ""));
   //   metricHeaders = metricHeaders.map((e) => {
@@ -67,7 +67,7 @@ function preParseReportRequestResult(result) {
   //   });
 
   const preCleanedRows = rows.map((row) => {
-    let { dimensionValues=[], metricValues=[] } = row;
+    let { dimensionValues = [], metricValues = [] } = row;
     dimensionValues = dimensionValues.map((e, i) => ({
       ...dimensionHeaders[i],
       ...e,

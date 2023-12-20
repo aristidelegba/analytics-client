@@ -14,13 +14,11 @@ export type TGetEventCountParams = {
   events: AnalyticsEvents[];
   period: TPeriod;
   ga4?: { property: string; format?: string };
+  matomo?: { [key: string]: any };
 };
 
-export type AnalyticsEventsName = "Click_OpenChat";
-("Click_CloseChat");
-("Click_SmartCard");
 export type AnalyticsEvents = {
-  name: AnalyticsEventsName;
+  name: string;
   meta?: {
     ga4?: {
       conversion?: boolean;
@@ -36,9 +34,11 @@ export type DateInterval = {
 };
 
 export type TPeriod = {
-  //   type: "litteral" | "date";
-  //   period: Period;
-  //   date: DateInterval;
-  start: string;
-  end?: string;
+  format: "magic" | "date";
+  type: "day" | "week" | "month" | "year";
+  magicValue: string | number;
+  value: {
+    start?: string;
+    end?: string;
+  };
 };

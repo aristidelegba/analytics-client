@@ -1,5 +1,4 @@
 import {
-  DateInterval,
   ShopinzenAnalyticsClient,
   TGetEventCountParams,
   TGetVisitsParams,
@@ -7,6 +6,7 @@ import {
 } from "@src/types";
 import { GapiAnalyticsService } from "./analytics/gapi.analytics.service";
 import { GapiInitializationParams } from "./types";
+import { checkPeriod } from "@src/utils";
 
 function convertEventToGA4Event(events: TGetEventCountParams["events"]) {
   const ga4Event = events.map((ev) => {
@@ -19,6 +19,24 @@ function convertEventToGA4Event(events: TGetEventCountParams["events"]) {
 
   return ga4Event;
 }
+
+function getGA4DateFromPeriod(period: TPeriod) {
+  checkPeriod(period);
+  const { format, type, magicValue, value } = period;
+  if (format === "magic") {
+    return {
+      startDate: "last" + magicValue + type,
+      endDate: "today",
+    };
+  }
+  if (format === "date") {
+    return {
+      startDate: value.start,
+      endDate: value.end,
+    };
+  }
+}
+
 export class GA4ClientFacade extends ShopinzenAnalyticsClient {
   public readonly gapiService: GapiAnalyticsService;
   constructor(options: GapiInitializationParams) {
@@ -37,36 +55,39 @@ export class GA4ClientFacade extends ShopinzenAnalyticsClient {
 
   async getVisitsPerPeriod(data: TGetVisitsParams): Promise<any> {
     const { period, ga4: { property, format } = {} } = data;
-    if (!property) {
-      throw new Error("ga4ProppertyID is required");
-    }
+    this.checkProperty(property);
     let options = {
       dimensions: ["date"],
-      metrics: ["screenPageViews"],
-      startDate: period?.start,
-      endDate: period.end,
+      metrics: [
+        "sessions",
+        "newUsers",
+        "screenPageViews",
+        "averageSessionDuration",
+      ],
+      ...getGA4DateFromPeriod(period),
       format,
     };
 
     return await this.gapiService.queryReport(property, options);
   }
+
   async getEventCount(data: TGetEventCountParams): Promise<any> {
     const { events, period, ga4: { property, format } = {} } = data;
-    if (!property) {
-      throw new Error("ga4ProppertyID is required");
-    }
+    this.checkProperty(property);
+
     let options = {
       dimensions: [],
       metrics: convertEventToGA4Event(events),
-      startDate: period?.start,
-      endDate: period.end,
+      ...getGA4DateFromPeriod(period),
       format,
     };
 
     return await this.gapiService.queryReport(property, options);
   }
-}
 
-export * from "./react";
-// export * as default from "./gapi.utils";
-export * from ".";
+  private checkProperty(property: string | undefined) {
+    if (!property) {
+      throw new Error("ga4ProppertyID is required");
+    }
+  }
+}

@@ -1,23 +1,21 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const useGoogleApi = (options) => {
   const [isLoadingGAPI, setIsLoadingGAPI] = useState(window.isLoadingGAPI);
 
-  function checkIsLoading(){
+  function checkIsLoading() {
     setTimeout(() => {
       const isLoading = window.isLoadingGAPI;
       if (isLoading) {
         checkIsLoading();
-
-      }else{
+      } else {
         // console.log("isLoadingGAPI :>> ", isLoadingGAPI);
-      setIsLoadingGAPI(isLoading);
+        setIsLoadingGAPI(isLoading);
       }
-
     }, 1000);
-  };
+  }
 
-  checkIsLoading()
+  checkIsLoading();
 
   return {
     gapi: window.gapi,

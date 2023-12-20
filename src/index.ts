@@ -1,6 +1,7 @@
 import { GA4ClientFacade } from "./lib/gapi";
 import { GapiInitializationParams } from "./lib/gapi/types";
 import { MatomoClientFacade } from "./lib/matomo";
+import { TMatomoConfig } from "./lib/matomo/types";
 import {
   DateInterval,
   AnalyticsEvents,
@@ -22,6 +23,7 @@ export class ShopinzenAnalytics {
     this.clientType = client;
   }
 
+  // ga4
   initGA4(params: GapiInitializationParams) {
     this.clientType = "ga4";
     this.activeClient = new GA4ClientFacade(params);
@@ -30,6 +32,14 @@ export class ShopinzenAnalytics {
     return await (this.activeClient as GA4ClientFacade).listAccounts();
   }
 
+  // Matomo
+  initMatomo(params: TMatomoConfig) {
+    this.clientType = "matomo";
+    this.activeClient = new MatomoClientFacade(params);
+  }
+ 
+
+  // common
   async getVisitsPerPeriod(params: TGetVisitsParams) {
     this.checkIfReady();
     return await this.activeClient.getVisitsPerPeriod(params);
