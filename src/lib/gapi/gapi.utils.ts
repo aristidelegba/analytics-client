@@ -4,14 +4,20 @@ import axios from "axios";
 export const serverUrl =
   process.env.NODE_ENV !== "production"
     ? "http://localhost:5000"
-    :
-    "https://bot.shopinzen.com";
+    : "https://bot.shopinzen.com";
 
 const headers = { Accept: "application/json" };
 
-
 // auth
-export const signInWithGoogle = ({ requestCode = false, clientId, scope }: { clientId: string, scope: string[], requestCode: boolean }) => {
+export const signInWithGoogle = ({
+  requestCode = false,
+  clientId,
+  scope,
+}: {
+  clientId: string;
+  scope: string[];
+  requestCode: boolean;
+}) => {
   //   console.log("object :>> ", googleAuthScopes);
   if (window && window.google) {
     return new Promise((resolve, reject) => {
@@ -24,9 +30,9 @@ export const signInWithGoogle = ({ requestCode = false, clientId, scope }: { cli
         access_type: "offline",
         callback: async (response) => {
           console.log("response", response);
-          await getAccessTokenFromServer(
-            response
-          ).then(e => resolve(e.data)).catch((e) => reject(e));
+          await getAccessTokenFromServer(response)
+            .then((e) => resolve(e.data))
+            .catch((e) => reject(e));
         },
       });
       if (requestCode) client.requestCode();
@@ -50,7 +56,7 @@ async function getAccessTokenFromServer({ code }) {
 // reports
 function preParseReportRequestResult(result) {
   let {
-    result: { metricHeaders, dimensionHeaders, rows = [], totals },
+    result: { metricHeaders=[], dimensionHeaders=[], rows = [], totals },
   } = result[0];
   //   dimensionHeaders = dimensionHeaders.map((e) => replaceInString(e, "ga:", ""));
   //   metricHeaders = metricHeaders.map((e) => {
@@ -61,7 +67,7 @@ function preParseReportRequestResult(result) {
   //   });
 
   const preCleanedRows = rows.map((row) => {
-    let { dimensionValues, metricValues } = row;
+    let { dimensionValues=[], metricValues=[] } = row;
     dimensionValues = dimensionValues.map((e, i) => ({
       ...dimensionHeaders[i],
       ...e,
@@ -74,15 +80,17 @@ function preParseReportRequestResult(result) {
     // return { [dimensions[]]: dimensions[0], value: metrics[0].values[0] };
   });
 
-
   const metricsTotals = metricHeaders.reduce((acc, curr, currentIndex) => {
-    return { ...acc, [curr.name]: (totals[0]?.metricValues[currentIndex]?.value || 0) };
+    return {
+      ...acc,
+      [curr.name]: totals[0]?.metricValues[currentIndex]?.value || 0,
+    };
   }, {});
   return {
     metrics: metricHeaders,
     dimensions: dimensionHeaders,
     rows: preCleanedRows,
-    metricsTotals: metricsTotals
+    metricsTotals: metricsTotals,
   };
   //   console.log("dimensions", preCleanedRows);
 }
@@ -102,7 +110,7 @@ function getChartDataPerDimensions(options) {
   });
 
   //   console.log('metricsTotals :>> ', metricsTotals);
-  let totals = {}
+  let totals = {};
   metrics.forEach(({ name }, i) => {
     // totals[name] = metricsTotals[i]?.value
     totals[name] = data.reduce((acc, curr) => {
@@ -111,7 +119,7 @@ function getChartDataPerDimensions(options) {
       if (curr[name]) output += parseInt(curr[name]);
       return output;
     }, 0);
-  })
+  });
   return { data, totals };
 }
 
@@ -129,8 +137,6 @@ export function parseReportAsChartData(reports) {
       }),
     };
   }, {});
-
-
 
   return { dimensions, metricsTotals };
 }
@@ -161,3 +167,11 @@ export function gaDateToJSDate(date, configs = { toLocaleDateString: null }) {
 
   return jsDate;
 }
+
+export default {
+  serverUrl,
+  signInWithGoogle,
+  getAccessTokenFromServer,
+  parseReportAsChartData,
+  gaDateToJSDate,
+};

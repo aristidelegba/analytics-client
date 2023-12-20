@@ -17,14 +17,10 @@ export class GapiAnalyticsService {
   isLoadingGAPI = false;
   initializationPending = false;
 
-  initialisationsParams!: GapiInitializationParams
+  initialisationsParams!: GapiInitializationParams;
   constructor(options: GapiInitializationParams) {
-    const {
-      clientId,
-      authScopes,
-      shopinzenAnalyticsAdminEmail
-    } = options;
-    this.initialisationsParams = options
+    const { clientId, authScopes, shopinzenAnalyticsAdminEmail } = options;
+    this.initialisationsParams = options;
 
     this.init();
   }
@@ -49,7 +45,9 @@ export class GapiAnalyticsService {
           localStorageService.getGoogleLoginResponse() || {};
         console.log("refresh_token", refresh_token);
         // if (!refresh_token) reject(error);
-        const { data: credentials } = await this.refreshAccessToken(this.initialisationsParams.shopinzenAnalyticsAdminEmail).catch(reject) as { data: any };
+        const { data: credentials } = (await this.refreshAccessToken(
+          this.initialisationsParams.shopinzenAnalyticsAdminEmail
+        ).catch(reject)) as { data: any };
         console.log("credentials :>> ", credentials);
         if (!credentials) reject(error);
 
@@ -92,7 +90,8 @@ export class GapiAnalyticsService {
   }
 
   async queryReport(property, options) {
-    if (!property) throw new Error("No property set");
+    console.log("property", property);
+    if (!property) throw new Error("Google property isnt set");
 
     try {
       let { dimensions, metrics, startDate, endDate } = options;
@@ -121,22 +120,22 @@ export class GapiAnalyticsService {
           return e;
         });
 
-      if (options.format === "chart_data") {
-        return parseReportAsChartData([reports]);
-      }
+      // if (options.format === "chart_data") {
+      return parseReportAsChartData([reports]);
+      // }
 
-      //   return reports;
+      // return reports;
     } catch (error) {
       return await this.errorHandler(error, {
         method: "queryReport",
-        args: arguments,
+        args: [property, options],
       });
       //   console.log("res", res);
       //   throw res;
     }
   }
   async runRealtimeReport(property, options) {
-    if (!property) throw new Error("No property set");
+    if (!property) throw new Error("Google property isnt set");
 
     try {
       let { dimensions, metrics, startDate, endDate } = options;
@@ -169,7 +168,7 @@ export class GapiAnalyticsService {
     } catch (error) {
       return await this.errorHandler(error, {
         method: "runRealtimeReport",
-        args: arguments,
+        args: [property, options],
       });
       //   console.log("res", res);
       //   throw res;
@@ -184,7 +183,7 @@ export class GapiAnalyticsService {
       .catch(async (e) => {
         const res = await this.errorHandler(e, {
           method: "listAccounts",
-          args: arguments,
+          args: [],
         });
         console.log("res", res);
         return res;
