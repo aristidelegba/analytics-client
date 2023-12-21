@@ -27,17 +27,17 @@ export class MatomoClientFacade extends ShopinzenAnalyticsClient {
     const { events, period, matomo: {} = {} } = data;
     checkPeriod(period);
     const { OR } = matmoSegmentOperators;
-    const { eventName } = EventsSegments;
+    const { eventCategory } = EventsSegments;
     let segment = "segment=";
     for (let index = 0; index < events.length; index++) {
       const element = events[index];
-      segment += `${eventName}=${element.name}${index < events.length ? OR : ""}`;
+      segment += `${eventCategory}==${element.name}${index < events.length ? OR : ""}`;
     }
     const params: MatomoMethodParams = {
       period: "day",
       date: getMaotomoDateFromPeriod(period),
       segment
     };
-    return await this.matomoClientCore.getEventsName(params);
+    return await this.matomoClientCore.getEventsCategory(params);
   }
 }

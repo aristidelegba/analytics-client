@@ -7,7 +7,7 @@ export const EventsMethods = {
   getName: "Events.getName",
 };
 export const EventsSegments = {
-  eventName: "eventName",
+  eventCategory: "eventCategory",
 };
 
 // export const getEventsCategory: MatomoMethod =

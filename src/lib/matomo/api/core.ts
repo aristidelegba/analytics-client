@@ -38,7 +38,7 @@ export default class MatomoClientCore {
           ...params,
         };
 
-        const response = await axios.get(baseUrl, { params: queryParams });
+        const response = await axios.post(baseUrl,  queryParams );
         if (response?.data?.result === "error") throw { ...response?.data };
         return response.data;
       } catch (error) {
