@@ -36,8 +36,19 @@ export class MatomoClientFacade extends ShopinzenAnalyticsClient {
     const params: MatomoMethodParams = {
       period: "day",
       date: getMaotomoDateFromPeriod(period),
-      segment
+      // segment
     };
-    return await this.matomoClientCore.getEventsCategory(params);
+    return new Promise(async(resolve, reject)=>{
+      await this.matomoClientCore.getEventsCategory(params).then((response) => {
+        const result = {};
+        for (let index = 0; index < events.length; index++) {
+         const key= events[index].name
+          result[key] = response[key]?.nb_events || 0;
+        }
+        resolve(result)
+      }).catch((err) => {
+        reject(err)
+      });
+    })
   }
 }

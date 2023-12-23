@@ -1,5 +1,5 @@
-import axios from "axios";
 import {
+  EventCategory,
   MatomoAPIResponse,
   MatomoMethod,
   MatomoMethodParams,
@@ -7,6 +7,7 @@ import {
 } from "../types";
 import { EventsMethods } from "./events/event";
 import { mergeEventsPerCategories } from "./events/helpers";
+import httpClient from "@src/deps/http-client";
 
 export const matmoSegmentOperators = {
   OR: ",",
@@ -38,7 +39,7 @@ export default class MatomoClientCore {
           ...params,
         };
 
-        const response = await axios.post(baseUrl,  queryParams );
+        const response = await httpClient.get(baseUrl, { params: queryParams });
         if (response?.data?.result === "error") throw { ...response?.data };
         return response.data;
       } catch (error) {
@@ -50,7 +51,7 @@ export default class MatomoClientCore {
 
   async getEventsCategory(
     params: MatomoMethodParams
-  ): Promise<MatomoAPIResponse> {
+  ): Promise<Record<string, EventCategory>> {
     const request = this.createMatomoAPIRequest(EventsMethods.getCategory);
     const result = await request(params);
     return mergeEventsPerCategories(result);
@@ -68,11 +69,4 @@ export default class MatomoClientCore {
     return mergeEventsPerCategories(result);
   }
 
-  private async manualArchiving() {
-    console.log("this.matomoConfigs", this.matomoConfigs);
-    return await axios.post(
-      this.matomoConfigs.baseUrl + "/misc/cron/archive.php",
-      { token_auth: this.matomoConfigs.tokenAuth }
-    );
-  }
 }

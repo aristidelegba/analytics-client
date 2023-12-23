@@ -19,15 +19,19 @@ export class ShopinzenAnalytics {
   clientType!: ClientType;
   private activeClient!: GA4ClientFacade | MatomoClientFacade;
 
-  constructor() {}
+  constructor() { }
 
   // ga4
   initGA4(params: GapiInitializationParams) {
     this.clientType = "ga4";
     this.activeClient = new GA4ClientFacade(params);
   }
-  async listGA4Accounts() {
-    return await (this.activeClient as GA4ClientFacade).listAccounts();
+  get ga4Utils() {
+    return {
+      listAccounts: (this.activeClient as GA4ClientFacade).listAccounts,
+      isInitializing: (this.activeClient as GA4ClientFacade).gapiService.initializationPending,
+      service: (this.activeClient as GA4ClientFacade).gapiService
+    };
   }
 
   // Matomo
@@ -51,5 +55,16 @@ export class ShopinzenAnalytics {
     if (!this.activeClient) {
       throw new Error("Client isnt set.");
     }
+  }
+
+
+
+  public clone(): ShopinzenAnalytics {
+    const instance = new ShopinzenAnalytics();
+    const actualThis = this
+    Object.keys(actualThis).map(e => {
+      instance[e] = actualThis[e]
+    })
+    return instance
   }
 }

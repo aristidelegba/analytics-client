@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import axios from "axios";
+import httpClient from "@src/deps/http-client";
 
 export const serverUrl =
   process.env.NODE_ENV !== "production"
@@ -41,7 +41,7 @@ export const signInWithGoogle = ({
 };
 
 async function getAccessTokenFromServer({ code }) {
-  const serverResponse = await axios.post(
+  const serverResponse = await httpClient.post(
     serverUrl + "/google/auth/get-tokens-from-code",
     {
       code,

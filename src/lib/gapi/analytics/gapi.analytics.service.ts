@@ -3,6 +3,7 @@ import storageService from "../storage.service";
 import { parseReportAsChartData, serverUrl } from "../gapi.utils";
 import { GapiInitializationParams } from "../types";
 import axios from "axios";
+import httpClient from "@src/deps/http-client";
 
 export class GapiAnalyticsService {
   gapi;
@@ -14,8 +15,7 @@ export class GapiAnalyticsService {
   webproperties;
   accounts;
   profiles;
-  isLoadingGAPI = false;
-  initializationPending = false;
+  initializationPending = true;
 
   initialisationsParams!: GapiInitializationParams;
   constructor(options: GapiInitializationParams) {
@@ -28,7 +28,7 @@ export class GapiAnalyticsService {
   async refreshAccessToken(email: string) {
     const headers = { Accept: "application/json" };
 
-    const serverResponse = await axios.post(
+    const serverResponse = await httpClient.post(
       serverUrl + "/google/auth/refresh-access-token",
       { email },
       { headers }
@@ -62,10 +62,17 @@ export class GapiAnalyticsService {
     });
   }
 
+  get gapiIsScriptAreAllDownloaded() {
+    const gapi = window?.gapi;
+    const analytics = gapi?.client?.analytics;
+    const analyticsdata = gapi?.client?.analyticsdata;
+    const analyticsadmin = gapi?.client?.analyticsadmin;
+    const areNotLoaded = !gapi || !analytics || !analyticsadmin || !analyticsdata
+    return !areNotLoaded
+  }
   async init() {
-    this.isLoadingGAPI = window?.isLoadingGAPI;
     return new Promise(async (resolve, reject) => {
-      if (window?.isLoadingGAPI) {
+      if (!this.gapiIsScriptAreAllDownloaded) {
         setTimeout(async () => {
           resolve(await this.init());
         }, 1000);
