@@ -6,22 +6,21 @@
 
 - [Node.js](https://nodejs.org/) version 18 or higher.
 
-
 #### In production
 
-In production the latest release can be installed from the **prod** branch on github.
+In production the latest release can be installed from the **main** branch on github.
 ::: code-group
 
 ```sh [npm]
-$ npm add -D https://github.com/aristidelegba/shopinzen-analytics#prod
+$ npm add -D https://github.com/aristidelegba/shopinzen-analytics
 ```
 
 ```sh [pnpm]
-$ pnpm add -D https://github.com/aristidelegba/shopinzen-analytics#prod
+$ pnpm add -D https://github.com/aristidelegba/shopinzen-analytics
 ```
 
 ```sh [yarn]
-$ yarn add -D https://github.com/aristidelegba/shopinzen-analytics#prod
+$ yarn add -D https://github.com/aristidelegba/shopinzen-analytics
 ```
 
 :::
@@ -33,20 +32,21 @@ You can also add it directly to your package json and run npm i (or yarn install
   ...
   "dependencies": {
     ....
-    "shopinzen-analytics": "https://github.com/aristidelegba/shopinzen-analytics#prod",
+    "shopinzen-analytics": "https://github.com/aristidelegba/shopinzen-analytics#semver:0.0.1",
     ...
   }
 }
 ```
 
 #### Use locally(developpement/ debugging purposes)
+
 First you need to clone the github repository
 
 ```sh [npm]
 $ git clone https://github.com/aristidelegba/shopinzen-analytics
 ```
 
-Then you can install it using the path to the directory where you have cloned  the source code of Shopinzen analytics client.
+Then you can install it using the path to the directory where you have cloned the source code of Shopinzen analytics client.
 
 ::: code-group
 
@@ -63,6 +63,7 @@ $ yarn add /path/to/the/source/code/on/my/machine
 ```
 
 :::
+
 ```json
 {
   ...
