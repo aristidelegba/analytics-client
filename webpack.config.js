@@ -2,6 +2,7 @@ const path = require("path");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 var glob = require("glob");
 
+
 const entryFiles = glob
   .sync("./src/**/*.ts")
   .reduce((previousValue, currentValue, currentIndex, array) => {
