@@ -131,7 +131,6 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
         { text: 'Asset Handling', link: 'asset-handling' },
         { text: 'Frontmatter', link: 'frontmatter' },
         { text: 'Using Vue in Markdown', link: 'using-vue' },
-        { text: 'Internationalization', link: 'i18n' }
       ]
     },
     {
