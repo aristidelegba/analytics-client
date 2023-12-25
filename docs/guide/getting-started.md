@@ -13,15 +13,32 @@ In production the latest release can be installed from the **prod** branch on gi
 ::: code-group
 
 ```sh [npm]
-$ npm add -D https://github.com/aristidelegba/shopinzen-analytics#prod
+$ npm add https://github.com/aristidelegba/shopinzen-analytics#prod
 ```
 
 ```sh [pnpm]
-$ pnpm add -D https://github.com/aristidelegba/shopinzen-analytics#prod
+$ pnpm add https://github.com/aristidelegba/shopinzen-analytics#prod
 ```
 
 ```sh [yarn]
-$ yarn add -D https://github.com/aristidelegba/shopinzen-analytics#prod
+$ yarn add https://github.com/aristidelegba/shopinzen-analytics#prod
+```
+
+:::
+
+You can also install a particular version using semver
+::: code-group
+
+```sh [npm]
+$ npm add https://github.com/aristidelegba/shopinzen-analytics#prod#semver:0.0.1
+```
+
+```sh [pnpm]
+$ pnpm add https://github.com/aristidelegba/shopinzen-analytics##semver:0.0.1
+```
+
+```sh [yarn]
+$ yarn add https://github.com/aristidelegba/shopinzen-analytics##semver:0.0.1
 ```
 
 :::
