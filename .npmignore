@@ -1,10 +1,5 @@
-/docs
-/node_modules
-/src
-/tests
+*
 
+!/dist
+!package.json
 
-*.js
-*.yaml
-*.lock
-tsconfig.json
