@@ -13,15 +13,15 @@ In production the latest release can be installed from the **main** branch on gi
 
 ```sh [npm]
 <<<<<<< HEAD
-$ npm add https://github.com/aristidelegba/shopinzen-analytics#prod
+$ npm add https://github.com/aristidelegba/analytics-client#prod
 ```
 
 ```sh [pnpm]
-$ pnpm add https://github.com/aristidelegba/shopinzen-analytics#prod
+$ pnpm add https://github.com/aristidelegba/analytics-client#prod
 ```
 
 ```sh [yarn]
-$ yarn add https://github.com/aristidelegba/shopinzen-analytics#prod
+$ yarn add https://github.com/aristidelegba/analytics-client#prod
 ```
 
 :::
@@ -30,25 +30,25 @@ You can also install a particular version using semver
 ::: code-group
 
 ```sh [npm]
-$ npm add https://github.com/aristidelegba/shopinzen-analytics#prod#semver:0.0.1
+$ npm add https://github.com/aristidelegba/analytics-client#prod#semver:0.0.1
 ```
 
 ```sh [pnpm]
-$ pnpm add https://github.com/aristidelegba/shopinzen-analytics##semver:0.0.1
+$ pnpm add https://github.com/aristidelegba/analytics-client##semver:0.0.1
 ```
 
 ```sh [yarn]
-$ yarn add https://github.com/aristidelegba/shopinzen-analytics##semver:0.0.1
+$ yarn add https://github.com/aristidelegba/analytics-client##semver:0.0.1
 =======
-$ npm add -D https://github.com/aristidelegba/shopinzen-analytics
+$ npm add -D https://github.com/aristidelegba/analytics-client
 ```
 
 ```sh [pnpm]
-$ pnpm add -D https://github.com/aristidelegba/shopinzen-analytics
+$ pnpm add -D https://github.com/aristidelegba/analytics-client
 ```
 
 ```sh [yarn]
-$ yarn add -D https://github.com/aristidelegba/shopinzen-analytics
+$ yarn add -D https://github.com/aristidelegba/analytics-client
 >>>>>>> fe7a9ad0b254969997e5efe1429d122312c47545
 ```
 
@@ -61,7 +61,7 @@ You can also add it directly to your package json and run npm i (or yarn install
   ...
   "dependencies": {
     ....
-    "shopinzen-analytics": "https://github.com/aristidelegba/shopinzen-analytics#semver:0.0.1",
+    "analytics-client": "https://github.com/aristidelegba/analytics-client#semver:0.0.1",
     ...
   }
 }
@@ -72,7 +72,7 @@ You can also add it directly to your package json and run npm i (or yarn install
 First you need to clone the github repository
 
 ```sh [npm]
-$ git clone https://github.com/aristidelegba/shopinzen-analytics
+$ git clone https://github.com/aristidelegba/analytics-client
 ```
 
 Then you can install it using the path to the directory where you have cloned the source code of Shopinzen analytics client.
@@ -98,7 +98,7 @@ $ yarn add /path/to/the/source/code/on/my/machine
   ...
   "dependencies": {
     ....
-    "shopinzen-analytics": "link:../shopinzen-analytics",
+    "analytics-client": "link:../analytics-client",
     ...
   }
 }

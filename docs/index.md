@@ -14,7 +14,7 @@ hero:
       link: /guide/getting-started
     - theme: alt
       text: View on GitHub
-      link: https://github.com/aristidelegba/shopinzen-analytics
+      link: https://github.com/aristidelegba/analytics-client
   image:
     src: /vitepress-logo-large.webp
     alt: VitePress

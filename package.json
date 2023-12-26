@@ -1,7 +1,7 @@
 {
-  "name": "shopinzen-analytics",
+  "name": "analytics-client",
   "version": "0.0.1",
-  "description": "",
+  "description": "Javascript client for Google Analytics and Matomo",
   "main": "./dist/index.js",
   "types": "./dist/src/index.d.ts",
   "files": [
