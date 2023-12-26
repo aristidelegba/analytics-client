@@ -1,4 +1,5 @@
 import { GA4ClientFacade } from "./lib/gapi";
+export { signInWithGoogle } from "./lib/gapi/gapi.utils";
 import { GapiInitializationParams } from "./lib/gapi/types";
 import { MatomoClientFacade } from "./lib/matomo";
 import { TMatomoConfig } from "./lib/matomo/types";
@@ -24,4 +25,3 @@ export declare class ShopinzenAnalytics {
     checkIfReady(): void;
     clone(): ShopinzenAnalytics;
 }
-export {};

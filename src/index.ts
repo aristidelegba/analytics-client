@@ -1,4 +1,5 @@
 import { GA4ClientFacade } from "./lib/gapi";
+export { signInWithGoogle } from "./lib/gapi/gapi.utils";
 import { GapiInitializationParams } from "./lib/gapi/types";
 import { MatomoClientFacade } from "./lib/matomo";
 import { TMatomoConfig } from "./lib/matomo/types";
@@ -8,6 +9,8 @@ import {
   TGetEventCountParams,
   TGetVisitsParams,
 } from "./types";
+
+// export signInWithGoogle from ''
 
 const clients = {
   matomo: MatomoClientFacade,
@@ -68,3 +71,5 @@ export class ShopinzenAnalytics {
     return instance
   }
 }
+
+
