@@ -1,6 +1,6 @@
 import { Period } from "@src/lib/matomo/types";
 
-export class ShopinzenAnalyticsClient {
+export class AnalyticsClientBaseClass {
   async getVisitsPerPeriod(data: TGetVisitsParams) {}
 
   async getEventCount(data: TGetEventCountParams) {}

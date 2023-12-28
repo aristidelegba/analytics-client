@@ -1,4 +1,4 @@
-export declare class ShopinzenAnalyticsClient {
+export declare class AnalyticsClientBaseClass {
     getVisitsPerPeriod(data: TGetVisitsParams): Promise<void>;
     getEventCount(data: TGetEventCountParams): Promise<void>;
 }

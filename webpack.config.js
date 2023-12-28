@@ -49,8 +49,9 @@ module.exports = {
   output: {
     filename: "[name].js",
     path: path.resolve(__dirname, "dist"),
-    // library: "shopinzen-analytics",
+    // library: "analytics-client",
     libraryTarget: "umd",
     clean: true,
+    globalObject: 'this',
   },
 };

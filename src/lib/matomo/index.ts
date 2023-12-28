@@ -1,5 +1,5 @@
 import {
-  ShopinzenAnalyticsClient,
+  AnalyticsClientBaseClass,
   TGetEventCountParams,
   TPeriod,
 } from "@src/types";
@@ -16,7 +16,7 @@ function getMaotomoDateFromPeriod(period: TPeriod) {
   }
   return `${value.start}${value.end ? "," : ""}${value.end}`;
 }
-export class MatomoClientFacade extends ShopinzenAnalyticsClient {
+export class MatomoClientFacade extends AnalyticsClientBaseClass {
   matomoClientCore!: MatomoClientCore;
   constructor(options: TMatomoConfig) {
     super();

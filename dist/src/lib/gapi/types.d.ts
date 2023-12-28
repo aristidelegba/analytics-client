@@ -1,5 +1,9 @@
 export type GapiInitializationParams = {
     clientId: string;
     authScopes: string[];
-    shopinzenAnalyticsAdminEmail: string;
+    GA4AdminEmail: string;
+    serverUrls: {
+        getAccessToken: string;
+        refreshToken: string;
+    };
 };

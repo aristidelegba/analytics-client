@@ -1,10 +1,6 @@
 /* eslint-disable no-unused-vars */
 import httpClient from "@src/deps/http-client";
-
-export const serverUrl =
-  process.env.NODE_ENV !== "production"
-    ? "http://localhost:5000"
-    : "https://bot.shopinzen.com";
+import localStorageService from "./storage.service";
 
 const headers = { Accept: "application/json" };
 
@@ -13,13 +9,15 @@ export const signInWithGoogle = ({
   requestCode = false,
   clientId,
   scope,
+  accessTokenServerUrl
 }: {
   clientId: string;
   scope: string[];
   requestCode: boolean;
+  accessTokenServerUrl: string
 }) => {
   //   console.log("object :>> ", googleAuthScopes);
-  if (window && window.google) {
+  if (typeof window != undefined && window?.google) {
     return new Promise((resolve, reject) => {
       const googleAccounts = window.google.accounts;
       const client = googleAccounts.oauth2.initCodeClient({
@@ -29,9 +27,12 @@ export const signInWithGoogle = ({
         include_granted_scopes: true,
         access_type: "offline",
         callback: async (response) => {
-          console.log("response", response);
-          await getAccessTokenFromServer(response)
-            .then((e) => resolve(e.data))
+          // console.log("response", response);
+          await getAccessTokenFromServer({ ...response, serverUrl: accessTokenServerUrl })
+            .then((e) => {
+              localStorageService.setGoogleLoginResponse(e.data)
+              resolve(e.data)
+            })
             .catch((e) => reject(e));
         },
       });
@@ -40,9 +41,9 @@ export const signInWithGoogle = ({
   }
 };
 
-async function getAccessTokenFromServer({ code }) {
+async function getAccessTokenFromServer({ code, serverUrl }) {
   const serverResponse = await httpClient.post(
-    serverUrl + "/google/auth/get-tokens-from-code",
+    serverUrl,
     {
       code,
       redirectUri: window.location.protocol + "//" + window.location.host,
@@ -169,7 +170,6 @@ export function gaDateToJSDate(date, configs = { toLocaleDateString: null }) {
 }
 
 export default {
-  serverUrl,
   signInWithGoogle,
   getAccessTokenFromServer,
   parseReportAsChartData,

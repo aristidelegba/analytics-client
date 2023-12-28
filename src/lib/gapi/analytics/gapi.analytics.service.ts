@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import storageService from "../storage.service";
-import { parseReportAsChartData, serverUrl } from "../gapi.utils";
+import { parseReportAsChartData } from "../gapi.utils";
 import { GapiInitializationParams } from "../types";
 import axios from "axios";
 import httpClient from "@src/deps/http-client";
@@ -19,17 +19,15 @@ export class GapiAnalyticsService {
 
   initialisationsParams!: GapiInitializationParams;
   constructor(options: GapiInitializationParams) {
-    const { clientId, authScopes, shopinzenAnalyticsAdminEmail } = options;
+    const { clientId, authScopes, GA4AdminEmail } = options;
     this.initialisationsParams = options;
-
-    this.init();
   }
 
   async refreshAccessToken(email: string) {
     const headers = { Accept: "application/json" };
 
     const serverResponse = await httpClient.post(
-      serverUrl + "/google/auth/refresh-access-token",
+      this.initialisationsParams.serverUrls.refreshToken,
       { email },
       { headers }
     );
@@ -46,7 +44,7 @@ export class GapiAnalyticsService {
         console.log("refresh_token", refresh_token);
         // if (!refresh_token) reject(error);
         const { data: credentials } = (await this.refreshAccessToken(
-          this.initialisationsParams.shopinzenAnalyticsAdminEmail
+          this.initialisationsParams.GA4AdminEmail
         ).catch(reject)) as { data: any };
         console.log("credentials :>> ", credentials);
         if (!credentials) reject(error);

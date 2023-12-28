@@ -1,5 +1,5 @@
 import {
-  ShopinzenAnalyticsClient,
+  AnalyticsClientBaseClass,
   TGetEventCountParams,
   TGetVisitsParams,
   TPeriod,
@@ -37,19 +37,28 @@ function getGA4DateFromPeriod(period: TPeriod) {
   }
 }
 
-export class GA4ClientFacade extends ShopinzenAnalyticsClient {
-  public readonly gapiService: GapiAnalyticsService;
+export class GA4ClientFacade extends AnalyticsClientBaseClass {
+  gapiService!: GapiAnalyticsService;
+  initialisationsParams!: GapiInitializationParams;
+
   constructor(options: GapiInitializationParams) {
     super();
+    this.initialisationsParams = options
     this.gapiService = new GapiAnalyticsService(options);
   }
 
   async listAccounts() {
-    if (!this.gapiService.analyticsadmin) {
+    if (!this.gapiService) {
       throw new Error(
         "GA4 client isn't initialized correctly. Please make sure the active client is GA4"
       );
     }
+    if (!this.gapiService.gapiIsScriptAreAllDownloaded) {
+      throw new Error(
+        "Gapi script are still loading. PLease retry."
+      );
+    }
+
     return await this.gapiService.listAccounts();
   }
 
@@ -87,10 +96,11 @@ export class GA4ClientFacade extends ShopinzenAnalyticsClient {
       .queryReport(property, options)
       .then((e: any) => {
         const totals = e?.metricsTotals || {};
+        console.log('totals', totals, metrics)
         const result = {};
         for (let index = 0; index < metrics.length; index++) {
-          const el = metrics[index];
-          result[el] = totals[index];
+          const el = events.map(e=>e.name)[index];
+          result[el] = totals[metrics[index]];
         }
         return result;
       });

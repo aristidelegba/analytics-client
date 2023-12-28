@@ -1,16 +1,16 @@
 import { GA4ClientFacade } from "./lib/gapi";
-export { signInWithGoogle } from "./lib/gapi/gapi.utils";
 import { GapiInitializationParams } from "./lib/gapi/types";
 import { MatomoClientFacade } from "./lib/matomo";
 import { TMatomoConfig } from "./lib/matomo/types";
 import {
-  DateInterval,
-  AnalyticsEvents,
   TGetEventCountParams,
   TGetVisitsParams,
 } from "./types";
 
-// export signInWithGoogle from ''
+
+export * as localStorageService from "./lib/gapi/storage.service";
+export { signInWithGoogle } from './lib/gapi/gapi.utils'
+
 
 const clients = {
   matomo: MatomoClientFacade,
@@ -18,20 +18,32 @@ const clients = {
 };
 type ClientType = keyof typeof clients;
 
-export class ShopinzenAnalytics {
+export class AnalyticsClient {
   clientType!: ClientType;
   private activeClient!: GA4ClientFacade | MatomoClientFacade;
 
   constructor() { }
 
   // ga4
-  initGA4(params: GapiInitializationParams) {
+  async initGA4(params: GapiInitializationParams) {
     this.clientType = "ga4";
     this.activeClient = new GA4ClientFacade(params);
+    return await this.activeClient.gapiService.init()
   }
   get ga4Utils() {
+    if (this.clientType !== 'ga4') {
+      throw new Error(
+        "ga4Utils isnt available as ga4 isnt the active client. Please make sure the active client is GA4"
+      );
+    }
+    if (!this.activeClient) {
+      throw new Error(
+        "The active client is undefined, please run initGA4"
+      );
+    }
+
     return {
-      listAccounts: (this.activeClient as GA4ClientFacade).listAccounts,
+      listAccounts: (this.activeClient as GA4ClientFacade).listAccounts.bind(this.activeClient),
       isInitializing: (this.activeClient as GA4ClientFacade).gapiService.initializationPending,
       service: (this.activeClient as GA4ClientFacade).gapiService
     };
@@ -62,8 +74,8 @@ export class ShopinzenAnalytics {
 
 
 
-  public clone(): ShopinzenAnalytics {
-    const instance = new ShopinzenAnalytics();
+  public clone(): AnalyticsClient {
+    const instance = new AnalyticsClient();
     const actualThis = this
     Object.keys(actualThis).map(e => {
       instance[e] = actualThis[e]
