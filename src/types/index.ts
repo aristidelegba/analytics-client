@@ -1,20 +1,22 @@
 import { Period } from "@src/lib/matomo/types";
 
 export class AnalyticsClientBaseClass {
-  async getVisitsPerPeriod(data: TGetVisitsParams) {}
+  async getVisitsPerPeriod(data: TGetVisitsParams) { }
 
-  async getEventCount(data: TGetEventCountParams) {}
+  async getEventCount(data: TGetEventCountParams) { }
 }
 
 export type TGetVisitsParams = {
   period: TPeriod;
+  groupBy?: 'day' | "month"
   ga4?: { property: string; format?: string };
+  matomo?: { siteId: number };
 };
 export type TGetEventCountParams = {
   events: AnalyticsEvents[];
   period: TPeriod;
-  ga4?: { property: string; format?: string };
-  matomo?: { [key: string]: any };
+  ga4?: { property: string };
+  matomo?: { siteId: number };
 };
 
 export type AnalyticsEvents = {
@@ -34,7 +36,7 @@ export type DateInterval = {
 };
 
 export type TPeriod = {
-  format: "magic" | "date";
+  format: "magic" | "range";
   magicValue: string | number;
   value: {
     start?: string;

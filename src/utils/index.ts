@@ -15,7 +15,7 @@ export function checkPeriod(period: TPeriod) {
       );
     }
   }
-  if (format === "date") {
+  if (format === "range") {
     if (typeof value !== "object" || !value.start)
       throw new Error(
         " unexpected period value for format date. must be of type {start:string, end:string}"
