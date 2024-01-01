@@ -29,7 +29,7 @@ function getGA4DateFromPeriod(period: TPeriod) {
       endDate: "today",
     };
   }
-  if (format === "date") {
+  if (format === "range") {
     return {
       startDate: value.start,
       endDate: value.end || "today",
@@ -63,25 +63,30 @@ export class GA4ClientFacade extends AnalyticsClientBaseClass {
   }
 
   async getVisitsPerPeriod(data: TGetVisitsParams): Promise<any> {
-    const { period, ga4: { property, format } = {} } = data;
+    const { period, ga4: { property } = {}, groupBy='month' } = data;
     this.checkProperty(property);
     let options = {
-      dimensions: ["date"],
+      dimensions: [groupBy === 'month' ? "month" : 'date'],
       metrics: [
-        "sessions",
-        "newUsers",
-        "screenPageViews",
-        "averageSessionDuration",
+        "activeUsers",
+        // "sessions",
+        // "newUsers",
+        // "screenPageViews",
+        // "averageSessionDuration",
       ],
       ...getGA4DateFromPeriod(period),
-      format,
+      format: "chart_data",
     };
 
-    return await this.gapiService.queryReport(property, options);
+    return await this.gapiService.queryReport(property, options).then((result: any) => {
+      const { dimensions: { month = {} } = {} } = result
+      if (!month.data) throw new Error("Something wnet wrong, No month data found")
+      return month.data || []
+    });
   }
 
   async getEventCount(data: TGetEventCountParams): Promise<any> {
-    const { events, period, ga4: { property, format } = {} } = data;
+    const { events, period, ga4: { property } = {} } = data;
     this.checkProperty(property);
 
     const metrics = convertEventToGA4Event(events);
@@ -89,7 +94,7 @@ export class GA4ClientFacade extends AnalyticsClientBaseClass {
       dimensions: [],
       metrics,
       ...getGA4DateFromPeriod(period),
-      format,
+      format: "chart_data",
     };
 
     return await this.gapiService
@@ -99,7 +104,7 @@ export class GA4ClientFacade extends AnalyticsClientBaseClass {
         console.log('totals', totals, metrics)
         const result = {};
         for (let index = 0; index < metrics.length; index++) {
-          const el = events.map(e=>e.name)[index];
+          const el = events.map(e => e.name)[index];
           result[el] = totals[metrics[index]];
         }
         return result;
