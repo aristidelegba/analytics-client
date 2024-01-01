@@ -11,4 +11,5 @@ export default class MatomoClientCore {
     getEventsCategory(params: MatomoMethodParams): Promise<Record<string, EventCategory>>;
     getEventsAction(params: MatomoMethodParams): Promise<MatomoAPIResponse>;
     getEventsName(params: MatomoMethodParams): Promise<MatomoAPIResponse>;
+    getVisitsSummary(params: MatomoMethodParams): Promise<Record<string, any>[]>;
 }

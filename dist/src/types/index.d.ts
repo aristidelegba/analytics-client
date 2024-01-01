@@ -4,9 +4,13 @@ export declare class AnalyticsClientBaseClass {
 }
 export type TGetVisitsParams = {
     period: TPeriod;
+    groupBy?: 'day' | "month";
     ga4?: {
         property: string;
         format?: string;
+    };
+    matomo?: {
+        siteId: number;
     };
 };
 export type TGetEventCountParams = {
@@ -14,10 +18,9 @@ export type TGetEventCountParams = {
     period: TPeriod;
     ga4?: {
         property: string;
-        format?: string;
     };
     matomo?: {
-        [key: string]: any;
+        siteId: number;
     };
 };
 export type AnalyticsEvents = {
@@ -35,7 +38,7 @@ export type DateInterval = {
     to: string;
 };
 export type TPeriod = {
-    format: "magic" | "date";
+    format: "magic" | "range";
     magicValue: string | number;
     value: {
         start?: string;

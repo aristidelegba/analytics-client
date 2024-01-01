@@ -8,7 +8,7 @@ export interface EventCategory {
     nb_events: number;
     [key: string]: any;
 }
-export type Period = "day" | "week" | "month" | "year";
+export type Period = "day" | "week" | "month" | "year" | "range";
 type DateString = string;
 export type MatomoAPIResponse = {
     [key: string]: any;
