@@ -12,7 +12,7 @@ export interface EventCategory {
   // Add other properties here if needed
 }
 
-export type Period = "day" | "week" | "month" | "year";
+export type Period = "day" | "week" | "month" | "year" | "range";
 type DateString = string; // Assuming date string format is used
 
 export type MatomoAPIResponse = {
