@@ -1,5 +1,5 @@
 # Analytics Client
-A full documention and example usage can be found at [https://shopinzen-analytics-docs-aristidelegba.vercel.app/](https://shopinzen-analytics-docs-aristidelegba.vercel.app/)
+A full documention and example usage can be found at [https://docs-analytics-client.vercel.app/](https://docs-analytics-client.vercel.app/)
 
 > Javascript client that support both Matomo and Google Analytics (GA4)
 
@@ -15,7 +15,7 @@ A full documention and example usage can be found at [https://shopinzen-analytic
 
 ## Table of contents
 
-- [Analytics Client](#analytics-lient)
+- [Analytics Client](#analytics-client)
   - [Prerequisites](#prerequisites)
   - [Table of contents](#table-of-contents)
   - [Getting Started](#getting-started)
