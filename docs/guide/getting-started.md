@@ -76,7 +76,7 @@ First you need to clone the github repository
 $ git clone https://github.com/aristidelegba/analytics-client
 ```
 
-Then you can install it using the path to the directory where you have cloned the source code of Shopinzen analytics client.
+Then you can install it using the path to the directory where you have cloned the source code of analytics client.
 
 ::: code-group
 
