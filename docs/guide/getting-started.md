@@ -4,7 +4,12 @@
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) version 18 or higher.
+- You need to configure Matomo and/or GA4 in your project.
+    - [Matomo](https://matomo.org/guide/getting-started/getting-started/)
+    - [GA4 API configuration](https://developers.google.com/analytics/devguides/reporting/data/v1/quickstart-client-libraries)
+
+- To install this package you need [NodeJS](http://nodejs.org/) (version 14 or later)  and a Node package manager 
+(We use [pnpm](https://pnpm.io/fr/installation) but you can use [npm](https://npmjs.org/) or [yarn](https://yarn.org/) as well) installed on your machine.
 
 #### In production
 
@@ -12,49 +17,45 @@ In production the latest release can be installed from the **main** branch on gi
 ::: code-group
 
 ```sh [npm]
-<<<<<<< HEAD
-$ npm add https://github.com/aristidelegba/analytics-client#prod
+$ npm add https://github.com/aristidelegba/analytics-client
 ```
 
 ```sh [pnpm]
-$ pnpm add https://github.com/aristidelegba/analytics-client#prod
+$ pnpm add https://github.com/aristidelegba/analytics-client
 ```
 
 ```sh [yarn]
-$ yarn add https://github.com/aristidelegba/analytics-client#prod
+$ yarn add https://github.com/aristidelegba/analytics-client
 ```
 
 :::
 
+```json
+{
+  ...
+  "dependencies": {
+    ....
+    "analytics-client": "https://github.com/aristidelegba/analytics-client",
+    ...
+  }
+}
+```
 You can also install a particular version using semver
 ::: code-group
 
 ```sh [npm]
-$ npm add https://github.com/aristidelegba/analytics-client#prod#semver:0.0.1
+$ npm add https://github.com/aristidelegba/analytics-client#semver:0.0.1
 ```
 
 ```sh [pnpm]
-$ pnpm add https://github.com/aristidelegba/analytics-client##semver:0.0.1
+$ pnpm add https://github.com/aristidelegba/analytics-client#semver:0.0.1
 ```
 
 ```sh [yarn]
-$ yarn add https://github.com/aristidelegba/analytics-client##semver:0.0.1
-=======
-$ npm add -D https://github.com/aristidelegba/analytics-client
-```
-
-```sh [pnpm]
-$ pnpm add -D https://github.com/aristidelegba/analytics-client
-```
-
-```sh [yarn]
-$ yarn add -D https://github.com/aristidelegba/analytics-client
->>>>>>> fe7a9ad0b254969997e5efe1429d122312c47545
+$ yarn add https://github.com/aristidelegba/analytics-client#semver:0.0.1
 ```
 
 :::
-
-You can also add it directly to your package json and run npm i (or yarn install)
 
 ```json
 {
