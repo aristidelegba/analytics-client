@@ -15,9 +15,9 @@ hero:
     - theme: alt
       text: View on GitHub
       link: https://github.com/aristidelegba/analytics-client
-  image:
-    src: /vitepress-logo-large.webp
-    alt: VitePress
+  # image:
+  #   src: /vitepress-logo-large.webp
+  #   alt: VitePress
 
 ---
 

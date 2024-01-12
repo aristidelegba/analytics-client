@@ -43,10 +43,7 @@ export default defineConfig({
   ],
 
   themeConfig: {
-    logo: { src: '/vitepress-logo-mini.svg', width: 24, height: 24 },
-
     nav: nav(),
-
     sidebar: {
       '/guide/': { base: '/guide/', items: sidebarGuide() },
       '/reference/': { base: '/reference/', items: sidebarReference() }
@@ -58,27 +55,27 @@ export default defineConfig({
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
+      { icon: 'github', link: 'https://github.com/aristidelegba/analytics-client' }
     ],
 
-    footer: {
-      message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2019-present Evan You'
-    },
+    // footer: {
+    //   message: 'Released under the MIT License.',
+    //   copyright: 'Copyright © 2023 Evan You'
+    // },
 
-    search: {
-      provider: 'algolia',
-      options: {
-        appId: '8J64VVRP8K',
-        apiKey: 'a18e2f4cc5665f6602c5631fd868adfd',
-        indexName: 'vitepress'
-      }
-    },
+    // search: {
+    //   provider: 'algolia',
+    //   options: {
+    //     appId: '8J64VVRP8K',
+    //     apiKey: 'a18e2f4cc5665f6602c5631fd868adfd',
+    //     indexName: 'vitepress'
+    //   }
+    // },
 
-    carbonAds: {
-      code: 'CEBDT27Y',
-      placement: 'vuejsorg'
-    }
+    // carbonAds: {
+    //   code: 'CEBDT27Y',
+    //   placement: 'vuejsorg'
+    // }
   }
 })
 
@@ -91,20 +88,20 @@ function nav(): DefaultTheme.NavItem[] {
     },
     {
       text: 'Reference',
-      link: '/reference/global',
+      link: '/reference/overview',
       activeMatch: '/reference/'
     },
     {
       text: pkg.version,
       items: [
-        {
-          text: 'Changelog',
-          link: 'https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md'
-        },
-        {
-          text: 'Contributing',
-          link: 'https://github.com/vuejs/vitepress/blob/main/.github/contributing.md'
-        }
+        // {
+        //   text: 'Changelog',
+        //   link: 'https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md'
+        // },
+        // {
+        //   text: 'Contributing',
+        //   link: 'https://github.com/vuejs/vitepress/blob/main/.github/contributing.md'
+        // }
       ]
     }
   ]
@@ -120,7 +117,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
         { text: 'Getting Started', link: 'getting-started' },
       ]
     },
-    { text: 'Config & API Reference', base: '/reference/', link: 'global' }
+    { text: 'Config & API Reference', base: '/reference/', link: 'overview' }
   ]
 }
 
@@ -133,7 +130,7 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
           text: 'Configurations',
           base: '/reference/',
           items: [
-            { text: 'Global', link: 'global' },
+            { text: 'Overview', link: 'overview' },
             { text: 'Matomo', link: 'matomo' },
             { text: 'GA4', link: 'ga4' },
           ]
