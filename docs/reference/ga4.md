@@ -1,5 +1,8 @@
-# Sidebar
+# GA4
+Comming soon
 
+
+<!-- 
 The sidebar is the main navigation block for your documentation. You can configure the sidebar menu in [`themeConfig.sidebar`](./default-theme-config#sidebar).
 
 ```js
@@ -212,4 +215,4 @@ const { hasSidebar } = useSidebar()
 <template>
   <div v-if="hasSidebar">Only show when sidebar exists</div>
 </template>
-```
+``` -->

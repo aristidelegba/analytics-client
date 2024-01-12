@@ -1,5 +1,7 @@
-# Default Theme Config
+# Overview
 
+The following are examples to get get you through analytics client configuration
+<!-- 
 Theme config lets you customize your theme. You can define theme config via the `themeConfig` option in the config file:
 
 ```ts
@@ -432,4 +434,4 @@ Can be used to customize the aria-label of the language toggle button in navbar.
 - Type: `boolean`
 - Default: `false`
 
-Whether to show an external link icon next to external links in markdown.
+Whether to show an external link icon next to external links in markdown. -->
